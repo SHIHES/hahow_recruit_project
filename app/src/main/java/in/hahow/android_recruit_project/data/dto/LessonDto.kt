@@ -1,19 +1,21 @@
 package `in`.hahow.android_recruit_project.data.dto
 
+import com.google.gson.annotations.SerializedName
+
 data class LessonDto(
-    val data: List<Data>
+    @SerializedName("data") val lessons: List<Lesson>
 )
 
-data class Data(
-    val coverImageUrl: String,
-    val numSoldTickets: Int,
-    val proposalDueTime: String,
-    val status: String,
-    val successCriteria: SuccessCriteria,
-    val title: String,
-    val totalVideoLengthInSeconds: Int
+data class Lesson(
+    val coverImageUrl: String? = null,
+    val numSoldTickets: Int? = null,
+    val proposalDueTime: String? = null,
+    val status: String? = null,
+    val successCriteria: SuccessCriteria? = null,
+    val title: String? = null,
+    val totalVideoLengthInSeconds: Int? = null
 )
 
 data class SuccessCriteria(
-    val numSoldTickets: Int
+    val numSoldTickets: Int? = null
 )

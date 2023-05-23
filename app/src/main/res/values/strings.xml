@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">android-recruit-project</string>
+
+    <string name="lesson_status_starting">已開課</string>
+    <string name="lesson_status_waiting">募資中</string>
+    <string name="lesson_status_countdown">倒數 %1$d 天</string>
+    <string name="one_hundred_percent">100%</string>
+    <string name="lesson_status_partial">%1$d / %2$d 人</string>
 </resources>
