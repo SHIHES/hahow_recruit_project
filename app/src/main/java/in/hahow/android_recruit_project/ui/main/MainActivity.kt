@@ -12,6 +12,7 @@ import `in`.hahow.android_recruit_project.ui.base.BaseViewModel
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private val viewModel: MainViewModel by viewModels()
+    private val lessonModelModelAdapter = LessonModelModelAdapter()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -19,7 +20,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun getViewModel(): BaseViewModel? = viewModel
 
-    override fun initViewBinding(): ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
+    override fun initViewBinding(): ActivityMainBinding =
+        ActivityMainBinding.inflate(layoutInflater)
 
-    override fun initView(savedInstanceState: Bundle?) {}
+    override fun initView(savedInstanceState: Bundle?) {
+        binding?.apply {
+            with(rvLessons) {
+                adapter = lessonModelModelAdapter
+            }
+
+            viewModel.lessons.observe(this@MainActivity) {
+                lessonModelModelAdapter.submitList(it)
+            }
+        }
+    }
 }
