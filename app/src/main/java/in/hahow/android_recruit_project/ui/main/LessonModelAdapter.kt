@@ -49,6 +49,7 @@ class LessonModelModelAdapter :
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position).status) {
             LessonModel.LessonStatus.SUCCESS -> VIEW_TYPE_LESSON_SUCCESS
+            LessonModel.LessonStatus.PUBLISHED -> VIEW_TYPE_LESSON_SUCCESS
             else -> VIEW_TYPE_LESSON_WAITING
         }
     }
@@ -135,7 +136,7 @@ class LessonModelModelAdapter :
                     ) {
                         0
                     } else {
-                        item.soldTicketsNumber?.div(item.successCriteriaNumber) ?: 0
+                        ((item.soldTicketsNumber?.times(100) ?: 0) / item.successCriteriaNumber)
                     }
                 }
             }
