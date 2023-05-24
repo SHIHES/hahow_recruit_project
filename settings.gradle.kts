@@ -7,4 +7,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "android-recruit-project"
-include ':app'
+include (":app")
