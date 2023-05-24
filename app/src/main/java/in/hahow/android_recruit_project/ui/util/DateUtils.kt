@@ -12,7 +12,7 @@ fun String.getDiffDaysFromNowOrNull(): Int? {
 
     return try {
         val date = sdf.parse(this)
-        val diffInMillis = now.timeInMillis - date.time
+        val diffInMillis = date.time - now.timeInMillis
         val diffDays = (diffInMillis / (24 * 60 * 60 * 1000)).toInt()
         diffDays
     } catch (e: ParseException) {

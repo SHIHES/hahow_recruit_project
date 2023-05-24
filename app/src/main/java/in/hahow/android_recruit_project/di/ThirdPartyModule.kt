@@ -22,6 +22,6 @@ object ThirdPartyModule {
     fun provideGson(): Gson {
         return GsonBuilder()
             .setLenient()
-            .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create()
+            .create()
     }
 }
