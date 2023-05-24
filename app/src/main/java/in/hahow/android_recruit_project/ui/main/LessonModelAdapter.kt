@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import `in`.hahow.android_recruit_project.R
 import `in`.hahow.android_recruit_project.databinding.CellLessonBinding
@@ -66,27 +65,19 @@ class LessonModelModelAdapter :
     }
 
     inner class SuccessViewHolder(private val binding: CellLessonBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+        BaseLessonViewHolder(binding) {
 
-        fun onBind(item: LessonModel) {
+        override fun onBind(item: LessonModel) {
+            super.onBind(item)
             val color = ContextCompat.getColor(itemView.context, R.color.lesson_status_success)
 
             binding.apply {
-                with(tvCellLessonTitle) {
-                    text = item.title
-                }
                 with(tvCellLessonStatus) {
                     text = item.status?.value
                     setBackgroundColor(color)
                 }
                 with(tvCellLessonProgress) {
                     text = resources.getString(R.string.one_hundred_percent)
-                }
-                with(sivCellLessonImage) {
-                    Glide.with(this).load(item.imageUrl)
-                        .apply(requestOption)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .into(this)
                 }
                 with(lpiCellLessonProgress) {
                     setIndicatorColor(color)
@@ -97,15 +88,13 @@ class LessonModelModelAdapter :
     }
 
     inner class WaitingViewHolder(private val binding: CellLessonBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+        BaseLessonViewHolder(binding) {
 
-        fun onBind(item: LessonModel) {
+        override fun onBind(item: LessonModel) {
+            super.onBind(item)
             val color = ContextCompat.getColor(itemView.context, R.color.lesson_status_waiting)
 
             binding.apply {
-                with(tvCellLessonTitle) {
-                    text = item.title
-                }
                 with(tvCellLessonStatus) {
                     text = item.status?.value
                     setBackgroundColor(color)
@@ -123,12 +112,6 @@ class LessonModelModelAdapter :
                         item.successCriteriaNumber
                     )
                 }
-                with(sivCellLessonImage) {
-                    Glide.with(this).load(item.imageUrl)
-                        .apply(requestOption)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .into(this)
-                }
                 with(lpiCellLessonProgress) {
                     setIndicatorColor(color)
                     progress = if (item.successCriteriaNumber == 0 ||
@@ -138,6 +121,28 @@ class LessonModelModelAdapter :
                     } else {
                         ((item.soldTicketsNumber?.times(100) ?: 0) / item.successCriteriaNumber)
                     }
+                }
+            }
+        }
+    }
+
+    /*
+        Extract different types of ViewHolder display logic.
+        You should list all the common logic here before adding a new one.
+        1. Display lesson title logic
+        2. Display lesson image logic
+     */
+    open inner class BaseLessonViewHolder(private val binding: CellLessonBinding) : RecyclerView
+    .ViewHolder(binding.root) {
+        open fun onBind(item: LessonModel) {
+            binding.apply {
+                with(tvCellLessonTitle) {
+                    text = item.title
+                }
+                with(sivCellLessonImage) {
+                    Glide.with(this).load(item.imageUrl)
+                        .apply(requestOption)
+                        .into(this)
                 }
             }
         }
