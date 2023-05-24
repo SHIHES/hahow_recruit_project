@@ -21,7 +21,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun getLessons() {
-        launch(false) {
+        launch() {
             val data = lessonRepository.fetchLessons()
             data.onSuccess { lessonDto ->
                 _lessons.value = lessonDto.lessons.map {

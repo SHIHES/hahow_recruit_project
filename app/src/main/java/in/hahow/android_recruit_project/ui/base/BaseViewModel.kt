@@ -18,6 +18,10 @@ open class BaseViewModel : ViewModel() {
         sendViewEvent(BaseViewEvent.Error(exception))
     }
 
+    /*
+        The base coroutine scope to get all the base view event, change the isLazy property to
+        change the initial coroutine state
+     */
     fun launch(isLazy: Boolean = true, block: suspend CoroutineScope.() -> Unit): Job? {
         val coroutineStart = if (isLazy) CoroutineStart.LAZY else CoroutineStart.DEFAULT
         launchJob = viewModelScope.launch(exceptionHandler, start = coroutineStart) {
@@ -27,16 +31,20 @@ open class BaseViewModel : ViewModel() {
         }
         return launchJob
     }
-
+    /*
+        The BaseActivity will subscribe all the events at onCreate method
+     */
     fun subscribeViewEvent(eventHandler: (event: BaseViewEvent) -> Unit) {
         viewModelScope.launch {
             launchJob?.start()
-            viewEventSharedFlow.collect{
+            viewEventSharedFlow.collect {
                 eventHandler.invoke(it)
             }
         }
     }
-
+    /*
+        The only way to send the view event state to BaseActivity
+     */
     fun sendViewEvent(viewEvent: BaseViewEvent) {
         viewModelScope.launch {
             _viewEventSharedFlow.emit(viewEvent)

@@ -29,7 +29,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     protected open fun handleViewEvent(event: BaseViewEvent) {
         when (event) {
             is BaseViewEvent.FullscreenLoading -> {
-               showDialog(loadDialog)
+                showDialog(loadDialog)
             }
 
             is BaseViewEvent.Done -> {
@@ -37,12 +37,14 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             }
 
             is BaseViewEvent.Error -> {
-                Snackbar.make(
-                    initViewBinding().root, event.throwable.toString(), Snackbar.LENGTH_LONG
-                )
-                    .setBackgroundTint(Color.BLACK)
-                    .setTextColor(Color.WHITE)
-                    .show()
+                binding?.let {
+                    Snackbar.make(
+                        it.root, event.throwable.toString(), Snackbar.LENGTH_LONG
+                    )
+                        .setBackgroundTint(Color.BLACK)
+                        .setTextColor(Color.WHITE)
+                        .show()
+                }
             }
 
             else -> {
